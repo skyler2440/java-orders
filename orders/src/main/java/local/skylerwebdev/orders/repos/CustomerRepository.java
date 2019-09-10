@@ -1,5 +1,8 @@
 package local.skylerwebdev.orders.repos;
 
-public interface CustomerRepository
+import local.skylerwebdev.orders.models.Customer;
+import org.springframework.data.repository.CrudRepository;
+
+public interface CustomerRepository extends CrudRepository<Customer, Long>
 {
 }
