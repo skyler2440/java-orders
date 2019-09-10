@@ -31,6 +31,16 @@ public class CustomerController
         return new ResponseEntity<>(myCustomers, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{name}",
+                produces = {"application/json"})
+    public ResponseEntity<?> getCustomerByName(
+            @PathVariable String name)
+    {
+        Customer c = customerService.findCustomerByName(name);
+        return new ResponseEntity<>(c, HttpStatus.OK);
+    }
+
+
     //127.0.0.1:2019/data/customers/new
     @PostMapping(value = "/new")
     public ResponseEntity<?> saveCustomer(
@@ -41,6 +51,21 @@ public class CustomerController
         URI newCustomerURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{custcode}").buildAndExpand(newCustomer.getCustcode()).toUri();
         responseHeaders.setLocation(newCustomerURI);
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
+    @PutMapping(value = "/{custcode}")
+    public ResponseEntity<?> updateCustomer(
+            @RequestBody
+            Customer updateCustomer,
+            @PathVariable long custcode)
+    {
+        customerService.update(updateCustomer, custcode);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping("/{custcode}")
+    public ResponseEntity<?> deleteCustomerById(@PathVariable long custcode)
+    {
+        customerService.delete(custcode);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 
