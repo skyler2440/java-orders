@@ -1,9 +1,9 @@
 package local.skylerwebdev.orders.services;
 
-import local.skylerwebdev.orders.models.Agent;
+//NEEDED IMPORTS
 import local.skylerwebdev.orders.models.Customer;
 import local.skylerwebdev.orders.models.Order;
-import local.skylerwebdev.orders.repos.CustomerRepository;
+import local.skylerwebdev.orders.repos.CustomersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,13 +12,16 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+//CONNECT BEAN FOR CUSTOMERSERVICE
 @Service(value = "customerService")
 @Transactional
 public class CustomerServiceImpl implements CustomerService
 {
+    //PULL IN BEANS FROM REPO
     @Autowired
-    private CustomerRepository custrepos;
+    private CustomersRepository custrepos;
 
+    //FIND ALL CUSTOMERS WITH ORDERS AND PUT INTO LIST
     @Override
     public List<Customer> findAll()
     {
@@ -27,12 +30,7 @@ public class CustomerServiceImpl implements CustomerService
         return list;
     }
 
-    @Override
-    public Customer findCustomerById(long id)
-    {
-        return null;
-    }
-
+    //FIND CUSTOMER BY NAME
     @Override
     public Customer findCustomerByName(String name)
     {
@@ -46,6 +44,7 @@ public class CustomerServiceImpl implements CustomerService
         }
     }
 
+    //DELETE CUSTOMER BY ID
     @Override
     @Transactional
     public void delete(long id)
@@ -59,6 +58,7 @@ public class CustomerServiceImpl implements CustomerService
     }
     }
 
+    //POST NEW CUSTOMER
     @Override
     @Transactional
     public Customer save(Customer customer)
@@ -76,19 +76,22 @@ public class CustomerServiceImpl implements CustomerService
         newCustomer.setPhone(customer.getPhone());
         for(Order o : customer.getOrders())
         {
-            newCustomer.getOrders().add(new Order(o.getOrdamount(), o.getAdvanceamt(), o.getOrddescription(), newCustomer));
+            //VALUES MUST BE IN CONSTRUCTOR ORDER
+            newCustomer.getOrders().add(new Order(o.getOrdamount(), o.getAdvanceamt(), newCustomer, o.getOrddescription()));
         }
         newCustomer.setAgent(customer.getAgent());
 
         return custrepos.save(newCustomer);
     }
 
+    //PUT CUSTOMER BY ID
     @Override
     @Transactional
     public Customer update(Customer customer, long id)
     {
         Customer currentCustomer = custrepos.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+        //IF STATEMENTS SKIP THE FIELD IF NULL FOR THE PUT REQUEST
         if (customer.getCustname() != null)
         {
             currentCustomer.setCustname(customer.getCustname());

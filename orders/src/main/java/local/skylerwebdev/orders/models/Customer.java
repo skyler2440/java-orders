@@ -1,21 +1,22 @@
 package local.skylerwebdev.orders.models;
 
-
+// NEEDED IMPORTS
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//NAME SQL TABLE
 @Entity
 @Table(name = "customers")
 public class Customer
 {
+    //SET ID AND AUTO GENERATE SET OTHER FIELDS
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long custcode;
-
+    //MAKE CUSTOMER NAME UNIQUE AND NOT NULLABLE
     @Column(unique = true,
             nullable = false)
     private String custname;
@@ -28,17 +29,20 @@ public class Customer
     private double paymentamt;
     private double outstandingamt;
     private String phone;
+    //MANY TO ONE RELATION THAT PULLS IN AGENT CODE
     @ManyToOne
     @JoinColumn(name ="agentcode", nullable = false)
     @JsonIgnoreProperties("customers")
     private Agent agent;
+    //ONE TO MANY THAT PULLS IN ORDER LIST
     @OneToMany(mappedBy = "customer",
                cascade = CascadeType.ALL,
                orphanRemoval = true)
     @JsonIgnoreProperties("customers")
     private List<Order> orders = new ArrayList<>();
 
-    public Customer(String custname, String custcity, String workingarea, String custcountry, String grade, double openingamt, double receiveamt, double paymentamt, double outstandingamt, String phone)
+    // SET CONSTRUCTOR TO EDIT FIELDS
+    public Customer(String custname, String custcity, String workingarea, String custcountry, String grade, double openingamt, double receiveamt, double paymentamt, double outstandingamt, String phone, Agent agent)
     {
         this.custname = custname;
         this.custcity = custcity;
@@ -50,12 +54,15 @@ public class Customer
         this.paymentamt = paymentamt;
         this.outstandingamt = outstandingamt;
         this.phone = phone;
+        this.agent = agent;
     }
 
+    //SET DEFAULT CONSTRUCTOR
     public Customer()
     {
     }
 
+    //GETTERS AND SETTERS
     public long getCustcode()
     {
         return custcode;

@@ -1,16 +1,18 @@
 package local.skylerwebdev.orders.models;
 
-
+// NEEDED IMPORTS
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//NAME SQL TABLE
 @Entity
 @Table(name ="agents")
 public class Agent
 {
+    //SET ID AND AUTO GENERATE SET OTHER FIELDS
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long agentcode;
@@ -20,13 +22,14 @@ public class Agent
     private double commission;
     private String phone;
     private String country;
-
+    // ONE TO MANY RELATION PULLS IN CUSTOMER LIST
     @OneToMany(mappedBy = "agent",
                cascade = CascadeType.ALL,
                orphanRemoval = true)
     @JsonIgnoreProperties("agents")
     private List<Customer> customers = new ArrayList<>();
 
+    // SET CONSTRUCTOR TO EDIT FIELDS
     public Agent(String agentname, String workingarea, double commission, String phone, String country)
     {
         this.agentname = agentname;
@@ -36,10 +39,12 @@ public class Agent
         this.country = country;
     }
 
+    //SET DEFAULT CONSTRUCTOR
     public Agent()
     {
     }
 
+    //GETTERS AND SETTERS
     public long getAgentcode()
     {
         return agentcode;

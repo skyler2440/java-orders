@@ -1,5 +1,6 @@
 package local.skylerwebdev.orders.controllers;
 
+//IMPORT PACKAGES
 import local.skylerwebdev.orders.models.Customer;
 import local.skylerwebdev.orders.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,13 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+//SET MAPPING
 @RestController
 @RequestMapping("/data/customers")
 @Component
 public class CustomerController
 {
+    //PULL IN BEANS FROM CUSTOMERSERVICE
     @Autowired
     private CustomerService customerService;
 
@@ -31,6 +34,7 @@ public class CustomerController
         return new ResponseEntity<>(myCustomers, HttpStatus.OK);
     }
 
+    //127.0.0.1/data/customers/{name} -- List customer when name is searched
     @GetMapping(value = "/{name}",
                 produces = {"application/json"})
     public ResponseEntity<?> getCustomerByName(
@@ -41,27 +45,32 @@ public class CustomerController
     }
 
 
-    //127.0.0.1:2019/data/customers/new
+    //127.0.0.1:2019/data/customers/new -- Adds a new customer
     @PostMapping(value = "/new")
     public ResponseEntity<?> saveCustomer(
             @Valid @RequestBody Customer newCustomer)
     {
         newCustomer = customerService.save(newCustomer);
+        //SETS UP RESPONSE HEADER TO RETURN ID OF CUSTOMER CREATED
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newCustomerURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{custcode}").buildAndExpand(newCustomer.getCustcode()).toUri();
         responseHeaders.setLocation(newCustomerURI);
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
+
+    //127.0.0.1:2019/data/customers/{custcode} -- updates customer but does not update order
     @PutMapping(value = "/{custcode}")
     public ResponseEntity<?> updateCustomer(
             @RequestBody
-            Customer updateCustomer,
+                    Customer updateCustomer,
             @PathVariable long custcode)
     {
         customerService.update(updateCustomer, custcode);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @DeleteMapping("/{custcode}")
+
+    //127.0.0.1:2019/data/customers/{custcode} -- deletes customer and orders
+        @DeleteMapping("/{custcode}")
     public ResponseEntity<?> deleteCustomerById(@PathVariable long custcode)
     {
         customerService.delete(custcode);

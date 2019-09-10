@@ -1,15 +1,14 @@
 package local.skylerwebdev.orders.services;
 
+//NEEDED IMPORTS
 import local.skylerwebdev.orders.models.Customer;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+//SET UP CUSTOMERSERVICE INTERFACE WITH FUNCTIONS FOR SEARCH
 public interface CustomerService
 {
     List<Customer> findAll();
-
-    Customer findCustomerById(long id);
 
     Customer findCustomerByName(String name);
 
