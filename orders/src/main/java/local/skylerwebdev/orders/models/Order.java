@@ -13,22 +13,24 @@ public class Order
     private long ordnum;
 
     private double ordamount;
-    private double advanceamt;
+    private double advanceamount;
+    private String orddescription;
+
     @ManyToOne
     @JoinColumn(name = "custcode", nullable = false)
     @JsonIgnoreProperties("orders")
-    private String orddescription;
+    private Customer customer;
 
-    public Order(double ordamount, double advanceamt, String orddescription)
+    public Order(double ordamount, double advanceamount, String orddescription, Customer customer)
     {
         this.ordamount = ordamount;
-        this.advanceamt = advanceamt;
+        this.advanceamount = advanceamount;
         this.orddescription = orddescription;
+        this.customer = customer;
     }
 
-    public Order(double ordamount)
+    public Order()
     {
-        this.ordamount = ordamount;
     }
 
     public long getOrdnum()
@@ -53,12 +55,12 @@ public class Order
 
     public double getAdvanceamt()
     {
-        return advanceamt;
+        return advanceamount;
     }
 
-    public void setAdvanceamt(double advanceamt)
+    public void setAdvanceamt(double advanceamount)
     {
-        this.advanceamt = advanceamt;
+        this.advanceamount = advanceamount;
     }
 
     public String getOrddescription()
@@ -69,5 +71,15 @@ public class Order
     public void setOrddescription(String orddescription)
     {
         this.orddescription = orddescription;
+    }
+
+    public Customer getCustomer()
+    {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer)
+    {
+        this.customer = customer;
     }
 }

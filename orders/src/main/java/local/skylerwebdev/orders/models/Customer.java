@@ -181,7 +181,7 @@ public class Customer
         return orders;
     }
 
-    public void setOrders(List<Order> orders)
+    public void setOrders(ArrayList<Order> orders)
     {
         this.orders = orders;
     }

@@ -1,9 +1,9 @@
 package local.skylerwebdev.orders.services;
 
 import local.skylerwebdev.orders.models.Customer;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 
 public interface CustomerService
 {
@@ -18,4 +18,5 @@ public interface CustomerService
     Customer save(Customer customer);
 
     Customer update(Customer customer, long id);
+
 }

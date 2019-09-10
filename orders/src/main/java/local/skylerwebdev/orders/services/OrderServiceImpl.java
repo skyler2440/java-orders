@@ -1,25 +1,25 @@
 package local.skylerwebdev.orders.services;
 
-import local.skylerwebdev.orders.models.Agent;
+import local.skylerwebdev.orders.models.Order;
 
 import java.util.List;
 
-public class AgentServiceImpl implements AgentService
+public class OrderServiceImpl implements OrderService
 {
     @Override
-    public List<Agent> findAll()
+    public List<Order> findAll()
     {
         return null;
     }
 
     @Override
-    public Agent findAgentById(long id)
+    public Order findOrderById(long id)
     {
         return null;
     }
 
     @Override
-    public Agent findAgentByName(String name)
+    public Order findOrderByName(String name)
     {
         return null;
     }
@@ -31,13 +31,13 @@ public class AgentServiceImpl implements AgentService
     }
 
     @Override
-    public Agent save(Agent agent)
+    public Order save(Order order)
     {
         return null;
     }
 
     @Override
-    public Agent update(Agent agent, long id)
+    public Order update(Order order, long id)
     {
         return null;
     }
